@@ -1,12 +1,11 @@
-<div class="container">
-  <div class="row">
-    <div class="col-md-12">
-      <h2>Welcome to Dropbox</h2>
-      <% if user_signed_in? %>
-        <p class="lead">Welcome <%= current_user.email %></p>
-      <% else %>
-		<p>Dropbox is a sophisticated file sharing and syncing service.</p>
-		<p>Your data is safe with us (Unlike the other Dropbox)! So just Sign Up and enjoy unlimited free data service.</p>
-	  <% end %>
-    </div>
+<div class="row">
+  <div class="col-md-12">
+    <h2>Welcome to Dropbox</h2>
+    <% if user_signed_in? %>
+      <p class="lead">Welcome <%= current_user.email %></p>
+    <% else %>
+	    <p>Dropbox is a sophisticated file sharing and syncing service.</p>
+	    <p>Your data is safe with us (Unlike the other Dropbox)! So just Sign Up and enjoy unlimited free data service.</p>
+    <% end %>
   </div>
+</div>
