@@ -1,8 +1,12 @@
 Rails.application.routes.draw do
-  resources :assets
+
+  # You can have the root of your site routed with "root"
+  root 'pages#main'
 
   devise_for :users
   get 'pages/main'
+
+  resources :assets
 
   #this route is for file downloads 
   match "assets/get/:id" => "assets#get", :via => [:get], :as => "download"
@@ -10,8 +14,9 @@ Rails.application.routes.draw do
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
-  # You can have the root of your site routed with "root"
-  root 'pages#main'
+  namespace :api, defaults: {format: 'json'} do
+    post 'auth/login'
+  end
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
