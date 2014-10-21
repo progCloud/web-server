@@ -23,7 +23,7 @@ class AssetsController < ApplicationController
   def get
     asset = current_user.assets.find_by_id(params[:id])
     if asset
-      send_file asset.uploaded_file.path, :type => asset.uploaded_file_content_type 
+      send_file asset.uploaded_file.path, :type => asset.uploaded_file_content_type, :disposition => 'inline'
     else
       flash[:error] = "If you stop trespassing now, that would be the end of it. But if you don't, I will find you and make all your uploads public. Good Luck!"
       redirect_to assets_path
