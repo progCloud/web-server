@@ -1,15 +1,11 @@
 class AssetsController < ApplicationController
-  before_action :set_asset, only: [:show, :edit, :update, :destroy]
+  before_action :set_asset, only: [:edit, :update, :destroy]
   before_action :authenticate_user!
   respond_to :html, :json
 
   def index
     @assets = current_user.assets
     respond_with(@assets)
-  end
-
-  def show
-    respond_with(@asset)
   end
 
   def new
@@ -38,7 +34,7 @@ class AssetsController < ApplicationController
 
   def update
     @asset.update(asset_params)
-    respond_with(@asset)
+    redirect_to assets_path
   end
 
   def destroy

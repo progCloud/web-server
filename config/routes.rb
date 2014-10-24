@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   devise_for :users
   get 'pages/main'
 
-  resources :assets
+  resources :assets, :except => :show
 
   #this route is for file downloads 
   match "assets/get/:id" => "assets#get", :via => [:get], :as => "download"
