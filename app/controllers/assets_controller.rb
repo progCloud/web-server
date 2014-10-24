@@ -33,7 +33,7 @@ class AssetsController < ApplicationController
   def create
     @asset = current_user.assets.new(asset_params)
     @asset.save
-    respond_with(@asset)
+    redirect_to assets_path
   end
 
   def update
