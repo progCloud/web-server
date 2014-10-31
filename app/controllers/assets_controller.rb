@@ -29,6 +29,7 @@ class AssetsController < ApplicationController
   def create
     @asset = current_user.assets.new(asset_params)
     @asset.save
+    distribute_to_locations(@asset)
     redirect_to assets_path
   end
 
@@ -50,4 +51,34 @@ class AssetsController < ApplicationController
     def asset_params
       params.require(:asset).permit(:uploaded_file)
     end
+
+    def distribute_to_locations(asset)
+      rand_num = 1 + rand(3)            # Randomly choose a server to exclude
+
+      if rand_num == 1
+        asset.s1 = '0'
+      else
+        asset.s1 = '1'
+        source = "assets/" + asset.id.to_s
+        destination = 's1/' + asset.id.to_s
+        FileUtils.copy_entry source, destination
+      end
+      if rand_num == 2
+        asset.s2 = '0'
+      else
+        asset.s2 = '1'
+        source = "assets/" + asset.id.to_s
+        destination = 's2/' + asset.id.to_s
+        FileUtils.copy_entry source, destination
+      end
+      if rand_num == 3
+        asset.s3 = '0'
+      else
+        asset.s3 = '1'
+        source = "assets/" + asset.id.to_s
+        destination = 's3/' + asset.id.to_s
+        FileUtils.copy_entry source, destination
+      end
+    end
+
 end
