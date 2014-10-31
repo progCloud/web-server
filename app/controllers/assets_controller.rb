@@ -19,7 +19,15 @@ class AssetsController < ApplicationController
   def get
     asset = current_user.assets.find_by_id(params[:id])
     if asset
-      send_file asset.uploaded_file.path, :type => asset.uploaded_file_content_type, :disposition => 'inline'
+      path = asset.uploaded_file.path.sub('assets', "s1")
+      if asset.s1 == "1"
+        path = asset.uploaded_file.path.sub('assets', "s1")
+      elsif asset.s2 == "1"
+        path = asset.uploaded_file.path.sub('assets', "s1")
+      elsif asset.s3 == "1"
+        path = asset.uploaded_file.path.sub('assets', "s3")
+      end
+      send_file path, :type => asset.uploaded_file_content_type, :disposition => 'inline'
     else
       flash[:error] = "If you stop trespassing now, that would be the end of it. But if you don't, I will find you and make all your uploads public. Good Luck!"
       redirect_to assets_path
@@ -55,26 +63,20 @@ class AssetsController < ApplicationController
     def distribute_to_locations(asset)
       rand_num = 1 + rand(3)            # Randomly choose a server to exclude
 
-      if rand_num == 1
-        asset.s1 = '0'
-      else
-        asset.s1 = '1'
+      if rand_num != 1
+        @asset.update(s1: '1')
         source = "assets/" + asset.id.to_s
         destination = 's1/' + asset.id.to_s
         FileUtils.copy_entry source, destination
       end
-      if rand_num == 2
-        asset.s2 = '0'
-      else
-        asset.s2 = '1'
+      if rand_num != 2
+        @asset.update(s2: '1')
         source = "assets/" + asset.id.to_s
         destination = 's2/' + asset.id.to_s
         FileUtils.copy_entry source, destination
       end
-      if rand_num == 3
-        asset.s3 = '0'
-      else
-        asset.s3 = '1'
+      if rand_num != 3
+        @asset.update(s3: '1')
         source = "assets/" + asset.id.to_s
         destination = 's3/' + asset.id.to_s
         FileUtils.copy_entry source, destination

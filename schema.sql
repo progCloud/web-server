@@ -31,10 +31,11 @@ CREATE TABLE `assets` (
   `uploaded_file_content_type` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `uploaded_file_file_size` int(11) DEFAULT NULL,
   `uploaded_file_updated_at` datetime DEFAULT NULL,
-  `s1` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `s2` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `s3` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `uploaded_from_web` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `s1` varchar(255) COLLATE utf8_unicode_ci DEFAULT '0',
+  `s2` varchar(255) COLLATE utf8_unicode_ci DEFAULT '0',
+  `s3` varchar(255) COLLATE utf8_unicode_ci DEFAULT '0',
+  `uploaded_from_web` varchar(255) COLLATE utf8_unicode_ci DEFAULT '0',
+  `is_deleted` varchar(255) COLLATE utf8_unicode_ci DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `index_assets_on_user_id` (`user_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -89,4 +90,4 @@ CREATE TABLE `users` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-10-31 18:47:25
+-- Dump completed on 2014-10-31 19:31:33
