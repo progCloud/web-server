@@ -19,11 +19,10 @@ class AssetsController < ApplicationController
   def get
     asset = current_user.assets.find_by_id(params[:id])
     if asset
-      path = asset.uploaded_file.path.sub('assets', "s1")
       if asset.s1 == "1"
         path = asset.uploaded_file.path.sub('assets', "s1")
       elsif asset.s2 == "1"
-        path = asset.uploaded_file.path.sub('assets', "s1")
+        path = asset.uploaded_file.path.sub('assets', "s2")
       elsif asset.s3 == "1"
         path = asset.uploaded_file.path.sub('assets', "s3")
       end
@@ -36,6 +35,7 @@ class AssetsController < ApplicationController
 
   def create
     @asset = current_user.assets.new(asset_params)
+    @asset.uploaded_from_web = '1'
     @asset.save
     distribute_to_locations(@asset)
     redirect_to assets_path
