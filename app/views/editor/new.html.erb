@@ -1,0 +1,7 @@
+<h1>Online Editor and Document Creator</h1>
+<%= tinymce %>
+<%= form_tag "/assets/online_upload" do %>
+	<%= text_field_tag 'name', 'Untitled Document' %>
+	<%= text_area_tag 'edit_text', nil, class: "tinymce", rows: 10, cols: 120 %>
+	<%= submit_tag "Upload" %></div>
+<% end %>

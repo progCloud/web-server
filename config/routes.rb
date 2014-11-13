@@ -1,5 +1,11 @@
 Rails.application.routes.draw do
 
+  get 'editor/new'
+
+  post 'assets/online_upload'
+
+  post 'assets/sharing/:id', to: 'assets#sharing'
+
   # You can have the root of your site routed with "root"
   root 'pages#main'
 

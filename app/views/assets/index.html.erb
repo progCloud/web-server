@@ -6,6 +6,7 @@
       <th>File Name</th>
       <th>Size</th>
       <th>Modified</th>
+      <th>Is Public</th>
       <th colspan="1"></th>
     </tr>
   </thead>
@@ -16,6 +17,7 @@
         <td><%= link_to asset.uploaded_file_file_name, asset.uploaded_file.url %></td>
         <td><%= number_to_human_size(asset.uploaded_file_file_size, :precision => 2) %></td>
         <td><%= asset.updated_at %></td>
+        <td><%= asset.is_public %></td>
         <td><%= link_to 'Destroy', asset, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>

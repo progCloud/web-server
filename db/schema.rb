@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141016145444) do
+ActiveRecord::Schema.define(version: 20141105160308) do
 
   create_table "assets", force: true do |t|
     t.integer  "user_id"
@@ -21,6 +21,7 @@ ActiveRecord::Schema.define(version: 20141016145444) do
     t.string   "uploaded_file_content_type"
     t.integer  "uploaded_file_file_size"
     t.datetime "uploaded_file_updated_at"
+    t.boolean  "is_public",                  default: false
   end
 
   add_index "assets", ["user_id"], name: "index_assets_on_user_id", using: :btree
