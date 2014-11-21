@@ -26,6 +26,18 @@
       </tr>
     <% end %>
 
+    <% @being_shared_folders.each do |folder| %>
+      <tr>
+        <td><i class="fa fa-folder-open"></i></td>
+        <td><%= link_to folder.name, folder_path(folder), class: "btn btn-link" %></td>
+        <td><%= number_to_human_size(folder.assets.sum(:uploaded_file_file_size)) %></td>
+        <td><%= folder.assets.maximum(:updated_at) %></td>
+        <td></td>
+        <td><%= link_to 'Edit', edit_folder_path(folder), class: "btn btn-link"  %></td>
+        <td><%= link_to 'Destroy', folder, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-link" %></td>
+      </tr>
+    <% end %>
+
     <% @assets.each do |asset| %>
       <tr>
         <td><i class="fa <%=get_icon(asset.uploaded_file_content_type)%>"></i></td>
@@ -44,3 +56,31 @@
 
 <%= link_to 'Upload New File', new_asset_path, class: "btn btn-default" %>
 <%= link_to 'Create New Folder', new_folder_path, class: "btn btn-default" %>
+
+<hr>
+<h2>Sharing</h2>
+<%= simple_form_for :sharing, html: {role: 'form', class: 'form-horizontal' }, url: '/assets/sharing' do |f| %>
+  <div class="form-group">
+    <%= f.label :email, 'Resipient Email', class: 'col-sm-3 control-label' %>
+    <div class="col-sm-9">
+      <%= f.input_field :email, class: "form-control" %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :message, 'Message', class: 'col-sm-3 control-label' %>
+    <div class="col-sm-9">
+      <%= f.input_field :message, class: "form-control" %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :folder, 'Folder', class: 'col-sm-3 control-label' %>
+    <div class="col-sm-9">
+    <%= f.input_field :folder, collection: @folders, class: "form-control" %>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="col-sm-9">
+    <%= f.button :submit, 'Share', class: "btn btn-default" %>
+    </div>
+  </div>
+<% end %>

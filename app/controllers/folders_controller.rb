@@ -9,7 +9,7 @@ class FoldersController < ApplicationController
   end
 
   def show
-    @assets = current_user.assets.where(folder_id: @folder.id)
+    @assets = Asset.where(folder_id: @folder.id)
     respond_with(@folder)
   end
 
@@ -39,7 +39,11 @@ class FoldersController < ApplicationController
 
   private
     def set_folder
-      @folder = current_user.folders.find(params[:id])
+      if(current_user.folders.where(id: params[:id]).count() > 0 )
+        @folder = current_user.folders.find(params[:id])
+      else
+        @folder = current_user.shared_folders_by_others.find(params[:id])
+      end
     end
 
     def folder_params

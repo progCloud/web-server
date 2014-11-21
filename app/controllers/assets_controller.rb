@@ -4,12 +4,23 @@ class AssetsController < ApplicationController
   respond_to :html
 
   def index
+    @being_shared_folders = current_user.shared_folders_by_others
     @assets = current_user.assets.where("folder_id is NULL").order("uploaded_file_file_name desc")
     @folders = current_user.folders
     respond_with(@assets)
   end
 
   def sharing
+    share_with_email = params[:sharing][:email]
+    message = params[:sharing][:message]
+    folder_id = params[:sharing][:folder]
+    shared_folder = current_user.shared_folders.new
+    shared_folder.shared_email = share_with_email
+    shared_folder.message = message
+    shared_folder.folder_id = folder_id
+    shared_folder.shared_user_id = User.where(email: share_with_email).first.id
+    shared_folder.save
+    redirect_to assets_path
   end
 
   def new
@@ -26,9 +37,12 @@ class AssetsController < ApplicationController
 
   def get
     if(user_signed_in?)
-      asset = current_user.assets.find_by_id(params[:id])
-      if asset
+      if current_user.all_assets.find_by_id(params[:id])
+        asset = current_user.all_assets.find_by_id(params[:id])
         send_file asset.uploaded_file.path, :type => asset.uploaded_file_content_type, :disposition => 'inline'
+      else
+        flash[:error] = "If you stop trespassing now, that would be the end of it. But if you don't, I will find you and make all your uploads public. Good Luck!"
+        redirect_to assets_path
       end
     elsif (Asset.find_by_id(params[:id]) && Asset.find_by_id(params[:id]).is_public)
       asset = Asset.find_by_id(params[:id])
@@ -80,7 +94,7 @@ class AssetsController < ApplicationController
 
   private
     def set_asset
-      @asset = current_user.assets.find(params[:id])
+      @asset = current_user.all_assets.find(params[:id])
     end
 
     def asset_params
