@@ -4,7 +4,7 @@ class AssetsController < ApplicationController
   respond_to :html
 
   def index
-    @assets = current_user.assets
+    @assets = current_user.assets.where("folder_id is NULL").order("uploaded_file_file_name desc")
     @folders = current_user.folders
     respond_with(@assets)
   end
@@ -56,7 +56,9 @@ class AssetsController < ApplicationController
 
   def destroy
     @asset.destroy
-    redirect_to assets_path
+    redirect_to :back
+    rescue ActionController::RedirectBackError
+    redirect_to root_path
   end
 
   def online_upload

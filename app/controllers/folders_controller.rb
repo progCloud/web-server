@@ -4,11 +4,12 @@ class FoldersController < ApplicationController
   respond_to :html
 
   def index
-    @folders = current_user.folders
+    @folders = current_user.folders.order("uploaded_file_file_name desc")
     respond_with(@folders)
   end
 
   def show
+    @assets = current_user.assets.where(folder_id: @folder.id)
     respond_with(@folder)
   end
 

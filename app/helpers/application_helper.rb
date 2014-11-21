@@ -15,4 +15,28 @@ module ApplicationHelper
     end
   end
 
+  def get_icon(content_type)
+    if content_type.include? "image"
+      return 'fa-file-image-o'
+    elsif content_type.include? "pdf"
+      return 'fa-file-pdf-o'
+    elsif content_type.include? "zip"
+      return 'fa-file-zip-o'
+    elsif content_type.include? "video"
+      return 'fa-file-video-o'
+    elsif content_type.include? "audio"
+      return 'fa-file-audio-o'
+    elsif content_type.include? "powerpoint" or content_type.include? "presentation"
+      return 'fa-file-powerpoint-o'
+    elsif content_type.include? "word"
+      return 'fa-file-word-o'
+    elsif content_type.include? "excel" or content_type.include? "spreadsheetml"
+      return 'fa-file-excel-o'
+    elsif content_type.include? "text"
+      return 'fa-file-text-o'
+    else
+      return 'fa-file-o'
+    end
+  end
+
 end
