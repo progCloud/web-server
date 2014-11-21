@@ -74,6 +74,6 @@ class AssetsController < ApplicationController
     end
 
     def asset_params
-      params.require(:asset).permit(:uploaded_file)
+      params.require(:asset).permit(:uploaded_file, :is_public)
     end
 end

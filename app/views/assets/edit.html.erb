@@ -1,5 +1,27 @@
-<h1>Editing upload</h1>
+<%= form_for(@asset) do |f| %>
+  <% if @asset.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@asset.errors.count, "error") %> prohibited this asset from being saved:</h2>
 
-<%= render 'form' %>
+      <ul>
+      <% @asset.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <h3>Upload Newer Version for <%= @asset.uploaded_file_file_name %></h3>
+  <%= f.file_field :uploaded_file %><br>
+
+  <h3>Make File Public</h3>
+  <%= f.check_box :is_public %><br>
+
+  <br>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
 
 <%= link_to 'Back', assets_path %>
