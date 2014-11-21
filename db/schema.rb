@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141105160308) do
+ActiveRecord::Schema.define(version: 20141121073206) do
 
   create_table "assets", force: true do |t|
     t.integer  "user_id"
@@ -22,9 +22,22 @@ ActiveRecord::Schema.define(version: 20141105160308) do
     t.integer  "uploaded_file_file_size"
     t.datetime "uploaded_file_updated_at"
     t.boolean  "is_public",                  default: false
+    t.string   "s1",                         default: "0"
+    t.string   "s2",                         default: "0"
+    t.string   "s3",                         default: "0"
+    t.string   "uploaded_from_web",          default: "0"
+    t.string   "is_deleted",                 default: "0"
+    t.integer  "folder_id"
   end
 
   add_index "assets", ["user_id"], name: "index_assets_on_user_id", using: :btree
+
+  create_table "folders", force: true do |t|
+    t.string   "name"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "users", force: true do |t|
     t.string   "email",                  default: "", null: false

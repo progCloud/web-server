@@ -1,4 +1,4 @@
-<h1>Listing assets</h1>
+<h1>Listing Uploads</h1>
 
 <table class="table">
   <thead>
@@ -7,6 +7,7 @@
       <th>Size</th>
       <th>Modified</th>
       <th>Is Public</th>
+      <th>Folder Id</th>
       <th colspan="2"></th>
     </tr>
   </thead>
@@ -18,13 +19,37 @@
         <td><%= number_to_human_size(asset.uploaded_file_file_size, :precision => 2) %></td>
         <td><%= asset.updated_at %></td>
         <td><%= asset.is_public %></td>
+        <td><%= asset.folder_id %></td>
         <td><%= link_to 'Edit', edit_asset_path(asset) %></td>
         <td><%= link_to 'Destroy', asset, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
-
 <br>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Folder Name</th>
+      <th>Size</th>
+      <th>Modified</th>
+      <th colspan="2"></th>
+    </tr>
+  </thead>
 
+  <tbody>
+    <% @folders.each do |folder| %>
+      <tr>
+        <td><%= link_to folder.name, folder_path(folder) %></td>
+        <td></td>
+        <td></td>
+        <td><%= link_to 'Edit', edit_folder_path(folder) %></td>
+        <td><%= link_to 'Destroy', folder, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<br>
 <%= link_to 'Upload New File', new_asset_path %>
+<br>
+<%= link_to 'Create New Folder', new_folder_path %>

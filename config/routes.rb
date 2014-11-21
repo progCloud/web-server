@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  resources :folders
+
   get 'editor/new'
 
   post 'assets/online_upload'
@@ -13,6 +15,8 @@ Rails.application.routes.draw do
   get 'pages/main'
 
   resources :assets, :except => :show
+
+  get "assets/:folder_id/new" => "assets#new", :as => "new_sub_file"
 
   #this route is for file downloads 
   match "assets/get/:id" => "assets#get", :via => [:get], :as => "download"

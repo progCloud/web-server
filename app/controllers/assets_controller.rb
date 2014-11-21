@@ -1,19 +1,23 @@
 class AssetsController < ApplicationController
   before_action :set_asset, only: [:edit, :update, :destroy]
   before_action :authenticate_user!, except: [:get]
-  respond_to :html, :json
+  respond_to :html
 
   def index
     @assets = current_user.assets
+    @folders = current_user.folders
     respond_with(@assets)
   end
 
   def sharing
-
   end
 
   def new
     @asset = current_user.assets.new
+    if params[:folder_id]
+      @current_folder = current_user.folders.find(params[:folder_id]) 
+      @asset.folder_id = @current_folder.id 
+    end
     respond_with(@asset)
   end
 
@@ -37,6 +41,10 @@ class AssetsController < ApplicationController
 
   def create
     @asset = current_user.assets.new(asset_params)
+    if params[:folder_id]
+      @current_folder = current_user.folders.find(params[:folder_id]) 
+      @asset.folder_id = @current_folder.id 
+    end
     @asset.save
     redirect_to assets_path
   end
@@ -48,7 +56,7 @@ class AssetsController < ApplicationController
 
   def destroy
     @asset.destroy
-    respond_with(@asset)
+    redirect_to assets_path
   end
 
   def online_upload
@@ -74,6 +82,6 @@ class AssetsController < ApplicationController
     end
 
     def asset_params
-      params.require(:asset).permit(:uploaded_file, :is_public)
+      params.require(:asset).permit(:uploaded_file, :is_public, :folder_id)
     end
 end
