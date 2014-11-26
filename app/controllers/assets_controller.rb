@@ -35,18 +35,26 @@ class AssetsController < ApplicationController
   def edit
   end
 
+  def remove_dot_if_present(string)
+    if string[-1] == '.'
+      string[0..-2]
+    else
+      string
+    end
+  end
+
   def get
     if(user_signed_in?)
       if current_user.all_assets.find_by_id(params[:id])
         asset = current_user.all_assets.find_by_id(params[:id])
-        send_file asset.uploaded_file.path, :type => asset.uploaded_file_content_type, :disposition => 'inline'
+        send_file remove_dot_if_present(asset.uploaded_file.path), :type => asset.uploaded_file_content_type, :disposition => 'inline'
       else
         flash[:error] = "If you stop trespassing now, that would be the end of it. But if you don't, I will find you and make all your uploads public. Good Luck!"
         redirect_to assets_path
       end
     elsif (Asset.find_by_id(params[:id]) && Asset.find_by_id(params[:id]).is_public)
       asset = Asset.find_by_id(params[:id])
-      send_file asset.uploaded_file.path, :type => asset.uploaded_file_content_type, :disposition => 'inline'
+      send_file remove_dot_if_present(asset.uploaded_file.path), :type => asset.uploaded_file_content_type, :disposition => 'inline'
     else
       flash[:error] = "If you stop trespassing now, that would be the end of it. But if you don't, I will find you and make all your uploads public. Good Luck!"
       redirect_to assets_path
@@ -83,7 +91,7 @@ class AssetsController < ApplicationController
     @asset.uploaded_file_content_type = 'text/html'
     @asset.save
     require 'fileutils'
-    file_path = @asset.uploaded_file.path
+    file_path = remove_dot_if_present(@asset.uploaded_file.path)
     folder = file_path[0...file_path.rindex('/')]
     FileUtils.mkdir_p folder
     File.open(@asset.uploaded_file.path, 'w+') { |file| file.write(text) }
