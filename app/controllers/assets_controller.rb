@@ -5,7 +5,7 @@ class AssetsController < ApplicationController
 
   def index
     @being_shared_folders = current_user.shared_folders_by_others
-    @assets = current_user.assets.where("folder_id is NULL").order("uploaded_file_file_name desc")
+    @assets = current_user.assets.where(folder_id: -1).order("uploaded_file_file_name desc")
     @folders = current_user.folders
     respond_with(@assets)
   end
@@ -19,11 +19,13 @@ class AssetsController < ApplicationController
     shared_folder.message = message
     shared_folder.folder_id = folder_id
     shared_folder.shared_user_id = User.where(email: share_with_email).first.id
+    shared_folder.folder_name = Folder.find_by_id(folder_id).name
     shared_folder.save
     redirect_to assets_path
   end
 
   def new
+    logger.debug(AssetsController.is_a?(Class))
     @asset = current_user.assets.new
     if params[:folder_id]
       @current_folder = current_user.folders.find(params[:folder_id]) 
@@ -66,6 +68,8 @@ class AssetsController < ApplicationController
     if params[:folder_id]
       @current_folder = current_user.folders.find(params[:folder_id]) 
       @asset.folder_id = @current_folder.id 
+    else
+      @asset.folder_id = -1
     end
     @asset.save
     redirect_to assets_path

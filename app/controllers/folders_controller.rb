@@ -33,7 +33,12 @@ class FoldersController < ApplicationController
   end
 
   def destroy
-    @folder.destroy
+    if(@folder.user_id == current_user.id)
+      @folder.destroy
+    else
+      shared_entry = SharedFolder.where(folder_id: @folder.id).where(shared_user_id: current_user.id).first
+      shared_entry.destroy
+    end
     redirect_to assets_path
   end
 
