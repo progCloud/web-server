@@ -25,7 +25,6 @@ class AssetsController < ApplicationController
   end
 
   def new
-    logger.debug(AssetsController.is_a?(Class))
     @asset = current_user.assets.new
     if params[:folder_id]
       @current_folder = current_user.folders.find(params[:folder_id]) 
@@ -68,10 +67,11 @@ class AssetsController < ApplicationController
     if params[:folder_id]
       @current_folder = current_user.folders.find(params[:folder_id]) 
       @asset.folder_id = @current_folder.id 
-    else
-      @asset.folder_id = -1
     end
     @asset.save
+    if !@asset.folder_id
+      @asset.update(folder_id: -1)
+    end
     redirect_to assets_path
   end
 

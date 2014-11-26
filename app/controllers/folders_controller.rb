@@ -10,6 +10,7 @@ class FoldersController < ApplicationController
 
   def show
     @assets = Asset.where(folder_id: @folder.id)
+    @folder_id = @folder.id
     respond_with(@folder)
   end
 

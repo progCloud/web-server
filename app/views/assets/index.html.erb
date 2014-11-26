@@ -8,7 +8,7 @@
       <th>Name</th>
       <th>Size</th>
       <th>Modified</th>
-      <th colspan="2"></th>
+      <th colspan="3"></th>
     </tr>
   </thead>
 
@@ -21,6 +21,7 @@
         <td><%= link_to folder.name, folder_path(folder), class: "btn btn-link" %></td>
         <td><%= number_to_human_size(folder.assets.sum(:uploaded_file_file_size)) %></td>
         <td><%= folder.assets.maximum(:updated_at) %></td>
+        <td></td>
         <td><%= link_to '<i class="fa fa-edit"></i>'.html_safe, edit_folder_path(folder), class: "btn btn-link"  %></td>
         <td><%= link_to '<i class="fa fa-trash"></i>'.html_safe, folder, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-link" %></td>
       </tr>
@@ -33,6 +34,7 @@
         <td><%= link_to folder.name, folder_path(folder), class: "btn btn-link" %></td>
         <td><%= number_to_human_size(folder.assets.sum(:uploaded_file_file_size)) %></td>
         <td><%= folder.assets.maximum(:updated_at) %></td>
+        <td></td>
         <td><%= link_to '<i class="fa fa-edit"></i>'.html_safe, edit_folder_path(folder), class: "btn btn-link"  %></td>
         <td><%= link_to '<i class="fa fa-trash"></i>'.html_safe, folder, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-link" %></td>
       </tr>
@@ -49,6 +51,7 @@
         <td><%= link_to asset.uploaded_file_file_name, asset.uploaded_file.url, class: "btn btn-link" %></td>
         <td><%= number_to_human_size(asset.uploaded_file_file_size, :precision => 2) %></td>
         <td><%= asset.updated_at %></td>
+        <td><a href="http://172.27.30.148/index.php?username=<%= current_user.email%>&folder=<%=asset.id%>&file=<%=asset.uploaded_file_file_name%>" target="_blank" class="btn btn-link"><i class="fa fa-clipboard"></i></a></td>
         <td><%= link_to '<i class="fa fa-edit"></i>'.html_safe, edit_asset_path(asset), class: "btn btn-link"  %></td>
         <td><%= link_to '<i class="fa fa-trash"></i>'.html_safe, asset, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-link" %></td>
       </tr>
