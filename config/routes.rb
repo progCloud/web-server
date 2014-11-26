@@ -1,32 +1,30 @@
 Rails.application.routes.draw do
 
+  # You can have the root of your site routed with "root"
+  root 'pages#main'
+  get 'pages/main'
+
+  devise_for :users
+
+  devise_for :admins, :skip => [:registrations]
+  mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
+
   resources :folders
 
   get 'editor/new'
 
-  post 'assets/online_upload'
-
-  post 'assets/sharing'
-
-  # You can have the root of your site routed with "root"
-  root 'pages#main'
-
-  devise_for :users
-  get 'pages/main'
-
   resources :assets, :except => :show
-
+  post 'assets/online_upload'
+  post 'assets/sharing'
   get "assets/:folder_id/new" => "assets#new", :as => "new_sub_file"
-
-  #this route is for file downloads 
-  match "assets/get/:id" => "assets#get", :via => [:get], :as => "download"
-
-  # The priority is based upon order of creation: first created -> highest priority.
-  # See how all your routes lay out with "rake routes".
+  match "assets/get/:id" => "assets#get", :via => [:get], :as => "download" # Route is for file downloads 
 
   namespace :api, defaults: {format: 'json'} do
     post 'auth/login'
   end
+
+  # The priority is based upon order of creation: first created -> highest priority.
+  # See how all your routes lay out with "rake routes".
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
