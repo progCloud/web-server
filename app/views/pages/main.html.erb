@@ -1,11 +1,76 @@
 <div class="row">
-  <div class="col-md-12">
-    <h2>Welcome to Dropbox</h2>
-    <% if user_signed_in? %>
+  <% if user_signed_in? %>
+    <div class="col-md-12">
       <p class="lead">Welcome <%= current_user.email %></p>
-    <% else %>
-	    <p>Dropbox is a sophisticated file sharing and syncing service.</p>
-	    <p>Your data is safe with us (Unlike the other Dropbox)! So just Sign Up and enjoy unlimited free data service.</p>
-    <% end %>
-  </div>
+  	  <a class="btn btn-default" href="/assets" role="button">Dropbox</a>
+      <a class="btn btn-default" href="/editor/new" role="button">Online Editor</a>
+    </div>
+  <% else %>
+    <style>
+      body {
+        background: url(/backg.jpg);
+        background-size: 1440px 800px;
+        background-repeat: no-repeat;
+        display: compact;
+      }
+    </style>
+    <div class="col-md-6">
+      <div class="transparent">
+        <h3>Sign in</h3>
+        <%= simple_form_for(resource, as: resource_name, url: session_path(resource_name), html: { role: "form", class: 'form-horizontal'}) do |f| %>
+          <div class="form-group">
+            <%= f.label :email, 'Email', class: 'col-sm-3 control-label' %>
+            <div class="col-sm-9">
+              <%= f.input_field :email, required: false, class: "form-control", pattern: false %>
+            </div>
+          </div>
+          <div class="form-group">
+            <%= f.label :password, 'Password', class: 'col-sm-3 control-label' %>
+            <div class="col-sm-9">
+              <%= f.input_field :password, required: false, class: "form-control"  %>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-sm-offset-3 col-sm-9">
+              <%= f.button :submit, "Sign in", class: "btn btn-default" %>
+            </div>
+          </div>
+        <% end %>
+      </div><br>
+      <div class="transparent">
+        <h3>New to Dropbox? Sign up!</h3>
+        <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { role: "form", class: 'form-horizontal'}) do |f| %>
+          <%= f.error_notification %>
+          <div class="form-group">
+            <%= f.label :email, 'Email', class: 'col-sm-3 control-label' %>
+            <div class="col-sm-9">
+              <%= f.input_field :email, required: true, class: "form-control", pattern: false %>
+            </div>
+          </div>
+          <div class="form-group">
+            <%= f.label :password, 'Password', class: 'col-sm-3 control-label' %>
+            <div class="col-sm-9">
+              <%= f.input_field :password, required: true, class: "form-control" %>
+            </div>
+          </div>
+          <div class="form-group">
+            <%= f.label :password_confirmation, 'Password confirmation', class: 'col-sm-3 control-label' %>
+            <div class="col-sm-9">
+              <%= f.input_field :password_confirmation, required: true, class: "form-control" %>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-sm-offset-3 col-sm-9">
+              <%= f.button :submit, "Sign up", class: "btn btn-default" %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <h2>You Stuff, Everywhere!</h2>
+      <h3>Dropbox is a sophisticated file sharing and syncing service.</h3>
+    </div>
+  <% end %>
+
 </div>

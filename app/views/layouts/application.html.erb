@@ -7,9 +7,8 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
-
-  <nav class="navbar navbar-default" role="navigation">
-    <div class="container-fluid">
+  <nav class="navbar navbar-default transparent-header" role="navigation">
+    <div class="container-fluid ">
       <div class="navbar-header">
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
           <span class="sr-only">Toggle navigation</span>
@@ -34,17 +33,16 @@
   </nav>
 
   <div class="container">
-
-    <% flash.each do |type, message| %>
-      <div class="alert <%= bootstrap_class_for(type) %> fade in">
-        <%= message %>
-      </div>
-    <% end %>
+    <div class="row">
+      <% flash.each do |type, message| %>
+        <div class="alert <%= bootstrap_class_for(type) %> fade in">
+          <%= message %>
+        </div>
+      <% end %>
+    </div>
 
     <%= yield %>
 
-
   </div>
-
 </body>
 </html>
